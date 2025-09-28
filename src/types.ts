@@ -72,7 +72,15 @@ interface SetErrorAction {
     payload: string;
 }
 
-export type WeatherAction = GetWeatherAction | SetLoadingAction | SetErrorAction;
+interface setForecastData{
+    payload: string;
+} 
+
+
+
+
+
+export type WeatherAction = GetWeatherAction | SetLoadingAction | SetErrorAction | setForecastData;
 
 export interface AlertAction{
     type: typeof SET_ALERT;
@@ -82,4 +90,21 @@ export interface AlertAction{
 export interface AlertState {
     message: string;
 }
+
+export interface DailyForecast{
+    day: string;
+    temp: string;
+    icon: string;
+}
+export interface RawDailyForecast {
+  dt: number;
+  temp: {
+    day: number;
+  };
+  weather: {
+    icon: string;
+  }[];
+}
+
+
 
