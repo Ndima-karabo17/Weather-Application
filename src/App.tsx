@@ -1,10 +1,11 @@
 import './App.css';
-
+import './index.css'
 import Search from './components/Search';
 import Alert from './components/Alert';
 import Weather from './components/Weather';
-import type { WeatherData } from './types';
+import type { DailyForecast, WeatherData } from './types';
 import { useState, type FC } from 'react';
+import WeeklyWeather from './components/WeeklyWeather';
 
 
 const App: FC = () => {
@@ -12,6 +13,7 @@ const App: FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [alertMsg, setAlertMsg] = useState('');
+const [forecastData, setForecastData] = useState<DailyForecast[]>([]);
 
   const handleSearch = async (city: string) => {
     if (!city.trim()) {
@@ -22,7 +24,7 @@ const App: FC = () => {
     setAlertMsg('');
     setError('');
     setLoading(true);
-
+setForecastData(forecastData);
     try {
       const API_KEY = '2af682340b186e44c1923720521ab60f';
       const res = await fetch(
@@ -47,6 +49,8 @@ const App: FC = () => {
   };
 
   return (
+   <>
+
     <div className="App">
       <Search title="Enter city name and press search button" onSearch={handleSearch} />
 
@@ -60,7 +64,9 @@ const App: FC = () => {
           onClose={() => setAlertMsg('')}
         />
       )}
-
+{!loading && forecastData.length > 0 && (
+  <WeeklyWeather forecastData={forecastData} />
+)}
       {error && (
         <Alert
           message={error}
@@ -68,7 +74,9 @@ const App: FC = () => {
         />
       )}
     </div>
-  );
+ 
+   </>
+   );
 };
 
 export default App;
