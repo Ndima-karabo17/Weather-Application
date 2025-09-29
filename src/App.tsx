@@ -75,13 +75,13 @@ const App: FC = () => {
 
       // To be edited
       const sampleForecast: DailyForecast[] = [
-        { day: 'Mon', temp: '28°C', icon: 'https://openweathermap.org/img/wn/03d@2x.png' },
-        { day: 'Tue', temp: '27°C', icon: 'https://openweathermap.org/img/wn/02d@2x.png' },
-        { day: 'Wed', temp: '29°C', icon: 'https://openweathermap.org/img/wn/03d@2x.png' },
-        { day: 'Thu', temp: '26°C', icon: 'https://openweathermap.org/img/wn/04d@2x.png' },
-        { day: 'Fri', temp: '30°C', icon: 'https://openweathermap.org/img/wn/01d@2x.png' },
-        { day: 'Sat', temp: '26°C', icon: 'https://openweathermap.org/img/wn/02d@2x.png' },
-        { day: 'Sun', temp: '25°C', icon: 'https://openweathermap.org/img/wn/03d@2x.png' },
+        { day: 'Mon', temp: '21°C', icon: 'https://openweathermap.org/img/wn/03d@2x.png' },
+        { day: 'Tue', temp: '18°C', icon: 'https://openweathermap.org/img/wn/02d@2x.png' },
+        { day: 'Wed', temp: '22°C', icon: 'https://openweathermap.org/img/wn/03d@2x.png' },
+        { day: 'Thu', temp: '27°C', icon: 'https://openweathermap.org/img/wn/04d@2x.png' },
+        { day: 'Fri', temp: '22°C', icon: 'https://openweathermap.org/img/wn/01d@2x.png' },
+        { day: 'Sat', temp: '24°C', icon: 'https://openweathermap.org/img/wn/02d@2x.png' },
+        { day: 'Sun', temp: '29°C', icon: 'https://openweathermap.org/img/wn/03d@2x.png' },
       ];
 
       setForecastData(sampleForecast);
@@ -101,7 +101,7 @@ const fetchWeatherByCoords = async (lat: number, lon: number) => {
 
     if (!res.ok) {
       const errorData = await res.json();
-      throw new Error(errorData.message || 'Failed to fetch location weather');
+      throw new Error(errorData.message || 'Location is invalid, please check spelling.');
     }
 
     const data: WeatherData = await res.json();
@@ -134,7 +134,7 @@ const fetchWeatherByCoords = async (lat: number, lon: number) => {
 
         <Search title="Enter city name and press search button" onSearch={handleSearch} />
         <SearchHistory history={searchHistory} onSearch={handleSearch} />
-<DetectLocation onLocationDetected={fetchWeatherByCoords} />
+        <DetectLocation onLocationDetected={fetchWeatherByCoords} />
 
         {loading && (
           <h2 className="text-2xl text-center font-semibold text-gray-700 dark:text-gray-300">
@@ -157,17 +157,18 @@ const fetchWeatherByCoords = async (lat: number, lon: number) => {
         )}
 
         {!loading && weatherData && (
-          <div className="flex flex-col md:flex-row gap-6">
-            <div className="md:w-1/2">
-              <Weather data={weatherData} />
-            </div>
+          <div className="flex flex-col md:flex-row md:items-start gap-6 w-full">
+  <div className="w-full md:w-1/2">
+    <Weather data={weatherData} />
+  </div>
 
-            {forecastData.length > 0 && (
-              <div className="md:w-1/2">
-                <WeeklyWeather forecastData={forecastData} />
-              </div>
-            )}
-          </div>
+  {forecastData.length > 0 && (
+    <div className="w-full md:w-1/2">
+      <WeeklyWeather forecastData={forecastData} />
+    </div>
+  )}
+</div>
+
         )}
       </div>
     </div>
