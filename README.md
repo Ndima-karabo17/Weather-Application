@@ -1,7 +1,7 @@
 
 #  Weather App
 
-A responsive and theme-aware weather application built with **React + TypeScript**. 
+A Weather application built with **React + TypeScript**. 
 The app allows users to search for a city, view current weather, a 7-day forecast,
 and see hourly weather details. It also supports light/dark mode, search history, 
 and automatic location detection.
