@@ -44,7 +44,7 @@ const App: FC = () => {
       return;
     }
 
-    // Update search history
+   
     setSearchHistory(prev => {
       const updated = [city, ...prev.filter(c => c.toLowerCase() !== city.toLowerCase())].slice(0, 5);
       localStorage.setItem("searchHistory", JSON.stringify(updated));
