@@ -38,7 +38,7 @@ and automatic location detection.
 
 ---
 
-## 📦 Getting Started
+## What you need to do to run it
 
 ### 1. Clone the Repo
 
