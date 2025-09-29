@@ -6,7 +6,7 @@ import Weather from './components/Weather';
 import WeeklyWeather from './components/WeeklyWeather';
 
 import type { DailyForecast, WeatherData } from './types';
-import { useState, type FC } from 'react';
+import { useState, useEffect, type FC } from 'react';
 
 const App: FC = () => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
@@ -14,6 +14,25 @@ const App: FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [alertMsg, setAlertMsg] = useState('');
+
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem('darkMode') === 'true';
+  });
+
+  // Sync dark mode class on root element & localStorage
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (darkMode) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('darkMode', darkMode.toString());
+  }, [darkMode]);
+
+  const toggleDarkMode = () => {
+    setDarkMode((prev) => !prev);
+  };
 
   const handleSearch = async (city: string) => {
     if (!city.trim()) {
@@ -42,7 +61,7 @@ const App: FC = () => {
       const data: WeatherData = await res.json();
       setWeatherData(data);
 
-//To be edited
+      // To be edited
       const sampleForecast: DailyForecast[] = [
         { day: 'Mon', temp: '28°C', icon: 'https://openweathermap.org/img/wn/01d@2x.png' },
         { day: 'Tue', temp: '30°C', icon: 'https://openweathermap.org/img/wn/02d@2x.png' },
@@ -64,20 +83,39 @@ const App: FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-200 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-200 dark:from-gray-900 dark:to-gray-800 p-4 transition-colors duration-500">
       <div className="max-w-5xl mx-auto space-y-6">
+    
+        <div className="flex justify-end mb-7 ml-10">
+          <button
+            onClick={toggleDarkMode}
+            className="px-4 py-2 bg-white dark:bg-blue-100 rounded-lg shadow hover:bg-blue-100 dark:hover:bg-white transition"
+            aria-label="Toggle dark mode"
+          >
+            {darkMode ? 'Light Mode' : 'Dark Mode'}
+          </button>
+        </div>
+
         <Search title="Enter city name and press search button" onSearch={handleSearch} />
 
         {loading && (
-          <h2 className="text-2xl text-center font-semibold text-gray-700">Loading...</h2>
+          <h2 className="text-2xl text-center font-semibold text-gray-700 dark:text-gray-300">
+            Loading...
+          </h2>
         )}
 
         {alertMsg && (
-          <Alert message={alertMsg} onClose={() => setAlertMsg('')} />
+          <Alert
+            message={alertMsg}
+            onClose={() => setAlertMsg('')}
+          />
         )}
 
         {error && (
-          <Alert message={error} onClose={() => setError('')} />
+          <Alert
+            message={error}
+            onClose={() => setError('')}
+          />
         )}
 
         {!loading && weatherData && (
