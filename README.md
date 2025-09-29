@@ -57,7 +57,7 @@ or
 3. click dev/ start
 
 
-   Screenshots of progress
+  ## Screenshots of progress
 <img width="1800" height="900" alt="Screenshot 2025-09-29 150838" src="https://github.com/user-attachments/assets/2ae6f8a0-9aab-4fac-a8c0-9cfa88c3130c" />
 <img width="1800" height="900" alt="Screenshot 2025-09-29 151421" src="https://github.com/user-attachments/assets/c5c5e159-20c7-4dcf-9829-d444f66fdc9d" />
 
