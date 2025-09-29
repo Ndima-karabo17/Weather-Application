@@ -2,21 +2,21 @@ import type { FC } from "react";
 
 
 
-interface AlertProps{
+interface AlertProps {
     message: string;
     onClose: () => void
 }
-const Alert: FC<AlertProps> = ({message, onClose}) =>{
+const Alert: FC<AlertProps> = ({ message, onClose }) => {
     return (
-        <div className="modal is-active has-text-centered">
-            <div className="modal-background" onChange={onClose}></div>
-            <div className="modal-card">
-                <header className="modal-card-head has-background-danger">
-                    <p className="modal-card-title has-text-white">{message}</p>
+        <div className="">
+            <div className="" onChange={onClose}></div>
+            <div className="">
+                <header className="">
+                    <p className="text-3xl font-sans font-medium">{message}</p>
 
                 </header>
-                <footer className="modal-card-foot" style={{justifyContent: 'center'}}>
-                    <button className="button" onClick={onClose}>Close</button>
+                <footer className="mb-10" style={{ justifyContent: 'center' }}>
+                    <button className="px-4 py-2 bg-white dark:bg-blue-100 rounded-lg shadow hover:bg-blue-100 dark:hover:bg-white transition" onClick={onClose}>Close</button>
                 </footer>
             </div>
         </div>
