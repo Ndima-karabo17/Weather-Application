@@ -4,7 +4,7 @@ import Search from './components/Search';
 import Alert from './components/Alert';
 import Weather from './components/Weather';
 import WeeklyWeather from './components/WeeklyWeather';
-
+import SearchHistory from './components/SearchHistory';
 import type { DailyForecast, WeatherData } from './types';
 import { useState, useEffect, type FC } from 'react';
 
@@ -15,11 +15,15 @@ const App: FC = () => {
   const [error, setError] = useState('');
   const [alertMsg, setAlertMsg] = useState('');
 
+  const [searchHistory, setSearchHistory] = useState<string[]>(() => {
+    const saved = localStorage.getItem("searchHistory");
+    return saved ? JSON.parse(saved) : [];
+  });
+
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem('darkMode') === 'true';
   });
 
-  // Sync dark mode class on root element & localStorage
   useEffect(() => {
     const root = window.document.documentElement;
     if (darkMode) {
@@ -39,6 +43,13 @@ const App: FC = () => {
       setAlertMsg('City is required!');
       return;
     }
+
+    // Update search history
+    setSearchHistory(prev => {
+      const updated = [city, ...prev.filter(c => c.toLowerCase() !== city.toLowerCase())].slice(0, 5);
+      localStorage.setItem("searchHistory", JSON.stringify(updated));
+      return updated;
+    });
 
     setAlertMsg('');
     setError('');
@@ -63,13 +74,13 @@ const App: FC = () => {
 
       // To be edited
       const sampleForecast: DailyForecast[] = [
-        { day: 'Mon', temp: '28°C', icon: 'https://openweathermap.org/img/wn/01d@2x.png' },
-        { day: 'Tue', temp: '30°C', icon: 'https://openweathermap.org/img/wn/02d@2x.png' },
+        { day: 'Mon', temp: '28°C', icon: 'https://openweathermap.org/img/wn/03d@2x.png' },
+        { day: 'Tue', temp: '27°C', icon: 'https://openweathermap.org/img/wn/02d@2x.png' },
         { day: 'Wed', temp: '29°C', icon: 'https://openweathermap.org/img/wn/03d@2x.png' },
         { day: 'Thu', temp: '26°C', icon: 'https://openweathermap.org/img/wn/04d@2x.png' },
-        { day: 'Fri', temp: '27°C', icon: 'https://openweathermap.org/img/wn/01d@2x.png' },
-        { day: 'Sat', temp: '31°C', icon: 'https://openweathermap.org/img/wn/02d@2x.png' },
-        { day: 'Sun', temp: '32°C', icon: 'https://openweathermap.org/img/wn/03d@2x.png' },
+        { day: 'Fri', temp: '30°C', icon: 'https://openweathermap.org/img/wn/01d@2x.png' },
+        { day: 'Sat', temp: '26°C', icon: 'https://openweathermap.org/img/wn/02d@2x.png' },
+        { day: 'Sun', temp: '25°C', icon: 'https://openweathermap.org/img/wn/03d@2x.png' },
       ];
 
       setForecastData(sampleForecast);
@@ -85,8 +96,8 @@ const App: FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-200 dark:from-gray-900 dark:to-gray-800 p-4 transition-colors duration-500">
       <div className="max-w-5xl mx-auto space-y-6">
-    
-        <div className="flex justify-end mb-7 ml-10">
+
+        <div className="flex justify-end mb-1 ml-10">
           <button
             onClick={toggleDarkMode}
             className="px-4 py-2 bg-white dark:bg-blue-100 rounded-lg shadow hover:bg-blue-100 dark:hover:bg-white transition"
@@ -97,6 +108,7 @@ const App: FC = () => {
         </div>
 
         <Search title="Enter city name and press search button" onSearch={handleSearch} />
+        <SearchHistory history={searchHistory} onSearch={handleSearch} />
 
         {loading && (
           <h2 className="text-2xl text-center font-semibold text-gray-700 dark:text-gray-300">
