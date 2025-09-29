@@ -7,6 +7,7 @@ import WeeklyWeather from './components/WeeklyWeather';
 import SearchHistory from './components/SearchHistory';
 import type { DailyForecast, WeatherData } from './types';
 import { useState, useEffect, type FC } from 'react';
+import DetectLocation from './components/DetectLocation';
 
 const App: FC = () => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
@@ -92,6 +93,30 @@ const App: FC = () => {
       setLoading(false);
     }
   };
+const fetchWeatherByCoords = async (lat: number, lon: number) => {
+ 
+  try {
+    const API_KEY = '2af682340b186e44c1923720521ab60f';
+    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || 'Failed to fetch location weather');
+    }
+
+    const data: WeatherData = await res.json();
+    setWeatherData(data);
+
+
+
+  } catch (err) {
+    setError((err as Error).message);
+    setWeatherData(null);
+    setForecastData([]);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-200 dark:from-gray-900 dark:to-gray-800 p-4 transition-colors duration-500">
@@ -109,6 +134,7 @@ const App: FC = () => {
 
         <Search title="Enter city name and press search button" onSearch={handleSearch} />
         <SearchHistory history={searchHistory} onSearch={handleSearch} />
+<DetectLocation onLocationDetected={fetchWeatherByCoords} />
 
         {loading && (
           <h2 className="text-2xl text-center font-semibold text-gray-700 dark:text-gray-300">
