@@ -8,6 +8,7 @@ import SearchHistory from './components/SearchHistory';
 import type { DailyForecast, WeatherData } from './types';
 import { useState, useEffect, type FC } from 'react';
 import DetectLocation from './components/DetectLocation';
+import HourlyWeather from './components/HourlyWeather';
 
 const App: FC = () => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
@@ -118,6 +119,18 @@ const fetchWeatherByCoords = async (lat: number, lon: number) => {
   }
 };
 
+
+
+<HourlyWeather
+  data={[
+    { time: "10 AM", temp: "24°C", icon: "https://openweathermap.org/img/wn/01d@2x.png" },
+    { time: "11 AM", temp: "25°C", icon: "https://openweathermap.org/img/wn/02d@2x.png" },
+    { time: "12 PM", temp: "26°C", icon: "https://openweathermap.org/img/wn/03d@2x.png" },
+    { time: "1 PM", temp: "27°C", icon: "https://openweathermap.org/img/wn/04d@2x.png" },
+    { time: "2 PM", temp: "28°C", icon: "https://openweathermap.org/img/wn/01d@2x.png" },
+  ]}
+/>
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-200 dark:from-gray-900 dark:to-gray-800 p-4 transition-colors duration-500">
       <div className="max-w-5xl mx-auto space-y-6">
@@ -157,7 +170,7 @@ const fetchWeatherByCoords = async (lat: number, lon: number) => {
         )}
 
         {!loading && weatherData && (
-          <div className="flex flex-col md:flex-row md:items-start gap-6 w-full">
+          <div className="flex flex-col md:flex-row md:items-start gap-7 w-full">
   <div className="w-full md:w-1/2">
     <Weather data={weatherData} />
   </div>
