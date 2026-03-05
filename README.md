@@ -63,5 +63,10 @@ or
 <img width="1800" height="900" alt="Screenshot 2025-09-29 153150" src="https://github.com/user-attachments/assets/0df17e67-2974-4da8-8f39-1c2e238ca1cf" />
 
 
+## Updated one
+<img width="1800" height="900" alt="Screenshot 2026-03-05 083214" src="https://github.com/user-attachments/assets/11b0da56-bb54-4554-b788-a4ccabe9e552" />
+<img width="1800" height="900" alt="Screenshot 2026-03-05 083200" src="https://github.com/user-attachments/assets/2fee18f7-f0cb-4844-a094-6fe4f66f8bf6" />
+
+
 
    
